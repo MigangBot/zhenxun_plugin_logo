@@ -6,10 +6,8 @@ from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Tuple, Union, Protocol
 
-from nonebot import require
-
-require("nonebot_plugin_htmlrender")
-from nonebot_plugin_htmlrender import get_new_page, html_to_pic
+from utils.migang.http import html_to_pic
+from utils.http_utils import AsyncPlaywright
 
 
 dir_path = Path(__file__).parent
@@ -42,13 +40,16 @@ async def make_5000choyen(texts: List[str]) -> str:
     template = env.get_template("5000choyen.html")
     html = await template.render_async(top_text=texts[0], bottom_text=texts[1])
 
-    async with get_new_page() as page:
-        await page.goto(path_url)
+    try:
+        page = await AsyncPlaywright.goto(path_url)
         await page.set_content(html)
         await page.wait_for_selector("a")
         a = await page.query_selector("a")
         assert a
         img = await (await a.get_property("href")).json_value()
+    finally:
+        if page:
+            await page.close()
     return "base64://" + str(img).replace("data:image/png;base64,", "")
 
 
@@ -56,12 +57,14 @@ async def make_douyin(texts: List[str]) -> BytesIO:
     template = env.get_template("douyin.html")
     html = await template.render_async(text=texts[0], frame_num=10)
 
-    async with get_new_page() as page:
-        await page.goto(path_url)
+    try:
+        page = await AsyncPlaywright.goto(path_url)
         await page.set_content(html)
         imgs = await page.query_selector_all("a")
         imgs = [await (await img.get_property("href")).json_value() for img in imgs]
-
+    finally:
+        if page:
+            await page.close()
     imgs = [
         imageio.imread(base64.b64decode(str(img).replace("data:image/png;base64,", "")))
         for img in imgs
@@ -91,9 +94,9 @@ class Command:
 
 
 commands = [
-    Command(("pornhub", "ph ", "phlogo"), make_pornhub, 2),
-    Command(("youtube", "yt ", "ytlogo"), make_youtube, 2),
-    Command(("5000choyen", "5000兆"), make_5000choyen, 2),
-    Command(("douyin", "dylogo"), make_douyin),
-    Command(("google", "gglogo"), make_google),
+    Command(("phlogo",), make_pornhub, 2),
+    Command(("ytlogo",), make_youtube, 2),
+    Command(("5000兆",), make_5000choyen, 2),
+    Command(("dylogo",), make_douyin),
+    Command(("gglogo",), make_google),
 ]

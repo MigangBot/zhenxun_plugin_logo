@@ -28,6 +28,33 @@ __plugin_meta__ = PluginMetadata(
     },
 )
 
+__zx_plugin_name__ = "logo生成"
+__plugin_usage__ = """
+Usage:
+    触发方式：指令 + 文字
+    指令列表:
+        phlogo 文字1 文字2   : Pornhub风格
+        ytlogo 文字1 文字2   : Youtube风格
+        5000兆 文字1 文字2   : 5000兆円欲しい!
+        dylogo 文字         : 抖音风格
+        gglogo 文字         : 谷歌风格
+    例子：
+        gglogo Google
+        ytlogo You Tube
+""".strip()
+__plugin_des__ = "生成各种风格logo"
+__plugin_type__ = ("好玩的",)
+__plugin_version__ = 0.2
+__plugin_cmd__ = ["phlogo", "ytlogo", "5000兆", "dylogo", "gglogo"]
+__plugin_author__ = "meetwq"
+
+__plugin_settings__ = {
+    "level": 5,
+    "default_status": True,
+    "limit_superuser": False,
+    "cmd": [],
+}
+
 
 def create_matchers():
     def create_handler(command: Command) -> T_Handler:
