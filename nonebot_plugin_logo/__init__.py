@@ -10,23 +10,23 @@ from nonebot.adapters.onebot.v11 import MessageSegment, Message
 
 from .data_source import commands, Command
 
-__plugin_meta__ = PluginMetadata(
-    name="logo生成",
-    description="pornhub等风格logo生成",
-    usage=(
-        "pornhub：ph {text1} {text2}"
-        "youtube：yt {text1} {text2}"
-        "5000兆円欲しい!：5000兆 {text1} {text2}"
-        "抖音：douyin {text}"
-        "谷歌：google {text}"
-    ),
-    extra={
-        "unique_name": "logo",
-        "example": "ph Porn Hub\nyt You Tube\n5000兆 我去 初音未来",
-        "author": "meetwq <meetwq@gmail.com>",
-        "version": "0.2.2",
-    },
-)
+# __plugin_meta__ = PluginMetadata(
+#     name="logo生成",
+#     description="pornhub等风格logo生成",
+#     usage=(
+#         "pornhub：ph {text1} {text2}"
+#         "youtube：yt {text1} {text2}"
+#         "5000兆円欲しい!：5000兆 {text1} {text2}"
+#         "抖音：douyin {text}"
+#         "谷歌：google {text}"
+#     ),
+#     extra={
+#         "unique_name": "logo",
+#         "example": "ph Porn Hub\nyt You Tube\n5000兆 我去 初音未来",
+#         "author": "meetwq <meetwq@gmail.com>",
+#         "version": "0.2.2",
+#     },
+# )
 
 __zx_plugin_name__ = "logo生成"
 __plugin_usage__ = """
